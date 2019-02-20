@@ -1,28 +1,8 @@
-pipeline {
-    agent any
-    tools {
-        maven 'Maven3.6.0'
-        jdk 'JDK1.8'
+node('node') { 
+currentBuild.result = "SUCCESS" 
+try { 
+stage('Checkout'){ 
+checkout scm 
+                 }
     }
-    stages {
-        stage ('Initialize') {
-            steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
-            }
-        }
-
-        stage ('Build') {
-            steps {
-                sh 'mvn -Dmaven.test.failure.ignore=true install' 1
-            }
-            post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml' 2
-                }
-            }
-        }
-    }
-}
+             } 
